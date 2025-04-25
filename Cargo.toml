@@ -1,0 +1,41 @@
+[package]
+name = "io-secret"
+description = "Set of I/O-free coroutines to retrieve secrets from different sources"
+version = "1.0.0"
+authors = ["soywod <clement.douin@posteo.net>"]
+edition = "2021"
+license = "MIT"
+categories = ["api-bindings"]
+keywords = ["io-free", "coroutine", "runtime", "secret", "keyring"]
+homepage = "https://pimalaya.org"
+documentation = "https://docs.rs/io-secret/latest/io_secret"
+repository = "https://github.com/pimalaya/io-secret"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[features]
+default = []
+keyring = ["dep:io-keyring"]
+command = ["dep:memchr", "dep:io-process"]
+std = ["io-keyring?/std", "io-process?/std"]
+serde = ["dep:serde", "secrecy/serde", "io-keyring?/serde", "io-process?/serde"]
+
+[dev-dependencies]
+env_logger = "0.11"
+io-keyring = { version = "1", default-features = false, features = ["std"] }
+io-process = { version = "1", default-features = false, features = ["std"] }
+toml = "0.8"
+
+[dependencies]
+io-keyring = { version = "1", default-features = false, optional = true }
+io-process = { version = "1", default-features = false, optional = true }
+log = "0.4"
+memchr = { version = "2.7", optional = true }
+secrecy = "0.10"
+serde = { version = "1", features = ["derive"], optional = true }
+
+[patch.crates-io]
+io-keyring.git = "https://github.com/pimalaya/io-keyring"
+io-process.git = "https://github.com/pimalaya/io-process"
